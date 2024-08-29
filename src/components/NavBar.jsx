@@ -29,6 +29,8 @@ const Barra = styled.div`
     text-align: center;
     color: #FADBC5;
 
+    z-index: 2;
+
     position: fixed;
     top: 0;
     left: 0;

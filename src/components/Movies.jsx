@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import axios from 'axios';
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function MoviesPage() {
     const [movies, setMovies] = useState(null);
@@ -25,7 +26,10 @@ export default function MoviesPage() {
             <p>Em Cartaz</p>
             <Movies>
                 {movies.map(movie => <li key={movie.id}>
-                    <img src={movie.posterURL} alt={movie.title} />
+                    <Link to={`/Schedule/${movie.id}`}>
+                        <img src={movie.posterURL} alt={movie.title} />
+                    </Link>
+                    
                 </li>)}
             </Movies>
         </Back>
@@ -61,7 +65,6 @@ const Back = styled.div`
     width:100%;
     height: calc(100% - 67px);
     color: white;
-    padding-bottom: 500px;
     
     display: flex;
     flex-wrap: wrap;

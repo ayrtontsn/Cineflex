@@ -1,15 +1,16 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export default function NavBar() {
     return (
-        <Barra>
+        <Barra to="/">
             <img src="src/assets/cine.png" alt="cine" />
             Cineflex
         </Barra>
     )
 }
 
-const Barra = styled.div`
+const Barra = styled(Link)`
     
     background-color: #EE897F;
     width: 100%;
@@ -28,6 +29,7 @@ const Barra = styled.div`
     line-height: 39.92px;
     text-align: center;
     color: #FADBC5;
+    text-decoration: none;
 
     z-index: 2;
 

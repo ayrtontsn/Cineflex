@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import styled from "styled-components";
@@ -8,7 +8,7 @@ export default function SchedulePage() {
     const [schedule, setSchedule] = useState(null);
 
     useEffect(() => {
-        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${params.idMovie}/showtimes`)
+        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${params.idFilme}/showtimes`)
             .then(resposta => {
                 setSchedule(resposta.data.days)
             });
@@ -30,9 +30,9 @@ export default function SchedulePage() {
                         <Title>{day.weekday}, {day.date}</Title>
                     <Time>
                         {day.showtimes.map(time =>
-                            <div key={time.id}>
+                            <Seccao to={`/assentos/${time.id}`} key={time.id}>
                                 {time.name}
-                            </div>
+                            </Seccao>
                         )}
                     </Time>
                 </Date>)}
@@ -98,11 +98,12 @@ const Time = styled.div`
     display: flex;
     justify-content: center;
     margin: 0px 25px;
-    color: #EE897F;
-    div{
+`
+
+const Seccao = styled(Link)`
         margin: 20px 10px;
         padding: 5px 20px;
-        border: 1px solid #EE897F;
+        border: 2px solid #EE897F;
         border-radius: 5px;
         font-family: Sarala;
         font-size: 16px;
@@ -110,6 +111,6 @@ const Time = styled.div`
         line-height: 26.09px;
         letter-spacing: 0.04em;
         text-align: center;
-
-    }
+        text-decoration: none;
+        color: #EE897F;
 `

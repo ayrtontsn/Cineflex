@@ -13,9 +13,9 @@ export default function App() {
       <NavBar />
       <Routes>
         <Route path='/' element={<MoviesPage />} />
-        <Route path='/schedule/:idMovie' element={<SchedulePage />} />
-        <Route path='/seats' element={<SeatsPage />} />
-        <Route path='/overview' element={<OverviewPage />} />
+        <Route path='/sessoes/:idFilme' element={<SchedulePage />} />
+        <Route path='/assentos/:idSessao' element={<SeatsPage />} />
+        <Route path='/sucesso' element={<OverviewPage />} />
 
       </Routes>
     </BrowserRouter>

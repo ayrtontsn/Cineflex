@@ -26,7 +26,7 @@ export default function MoviesPage() {
             <p>Em Cartaz</p>
             <Movies>
                 {movies.map(movie => <li key={movie.id}>
-                    <Link to={`/Schedule/${movie.id}`}>
+                    <Link to={`/sessoes/${movie.id}`}>
                         <img src={movie.posterURL} alt={movie.title} />
                     </Link>
                     

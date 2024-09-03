@@ -57,7 +57,7 @@ export default function SeatsPage() {
     function selected(seat){
         
         if(seat.isAvailable.toString() === "false"){
-            alert("Lugar não disponível, escolha outro")
+            alert("Esse assento não está disponível")
         }else{
             if (select.find((selecteds) => selecteds.id === seat.id)){
                 setSelect(select.filter(iten => iten.id !== seat.id))

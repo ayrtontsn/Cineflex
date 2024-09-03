@@ -3,10 +3,15 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom"
+import { IMaskInput } from "react-imask";
 
 export default function SeatsPage() {
     const params = useParams();
     const [seats, setSeats] = useState(0);
+    const [movie, setMovie] = useState("");
+    const [seccao, setSeccao] = useState("");
+    const [day,setDay] = useState("");
+
     const [nome, setNome] = useState("");
 	const [cpf, setCpf] = useState("");
 	const navigate = useNavigate();
@@ -15,7 +20,10 @@ export default function SeatsPage() {
     useEffect(() => {
         const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${params.idSessao}/seats`)
             .then(resposta => {
-                setSeats(resposta.data.seats)
+                setSeats(resposta.data.seats),
+                setMovie(resposta.data.movie),
+                setSeccao(resposta.data.name),
+                setDay(resposta.data.day)
             });
     }, []);
 
@@ -27,26 +35,34 @@ export default function SeatsPage() {
         )
     }
 
+    
+
     function registration(event) {
         event.preventDefault();
+        const ids = select.map(itens => itens.id)
 
         const requisicao = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
-            ids: select,
-            nome, cpf
+            ids, nome, cpf
         })
 
-        requisicao.then(() => navigate("/sucesso"))
+        requisicao.then(() => navigate("/sucesso", { state: { 
+            selected: select,
+            nome, cpf,
+            movie: movie,
+            day: day,
+            seccao: seccao
+        } }))
     }
 
-    function selected(isAvailable, id){
+    function selected(seat){
         
-        if(isAvailable === "false"){
+        if(seat.isAvailable.toString() === "false"){
             alert("Lugar não disponível, escolha outro")
         }else{
-            if (select.find((selecteds) => selecteds === id)){
-                setSelect(select.filter(iten => iten !== id))
+            if (select.find((selecteds) => selecteds.id === seat.id)){
+                setSelect(select.filter(iten => iten.id !== seat.id))
             }else{
-                setSelect([...select,id])
+                setSelect([...select,seat])
             }
         }
     }
@@ -57,7 +73,7 @@ export default function SeatsPage() {
                 {seats.map(seat => <Seat
                     key={seat.id}
                     habilitado={seat.isAvailable.toString()}
-                    onClick={() => selected(seat.isAvailable.toString(),seat.id)}
+                    onClick={() => selected(seat)}
                     id={seat.id}
                     selected={select}
                     >
@@ -69,15 +85,17 @@ export default function SeatsPage() {
                 <Title htmlFor="nome">Nome do comprador(a)</Title>
                 <Enter
                 id="nome"
+                placeholder="Digite seu nome..."
                 required
                 type="text"
                 value={nome}
                 onChange={e => setNome(e.target.value)} />
                 <Title htmlFor="cpf">CPF do comprador(a)</Title>
-                <Enter
+                <Cpf
+                mask="000.000.000-00"
+                placeholder="Digite seu CPF..."
                 id="cpf"
                 required
-                type="number"
                 value={cpf}
                 onChange={e => setCpf(e.target.value)} />
                 <button type="submit">Reservar assento(s)</button>
@@ -133,11 +151,11 @@ const Seat = styled(Link)`
     margin: 2px;
     box-sizing: border-box;
     border-radius: 26px;
-    border: ${props => (props.selected.find((iten) => iten === props.id))? "2px solid #EE897F":"1px solid #808F9D"};
+    border: ${props => (props.selected.find((iten) => iten.id === props.id))? "2px solid #EE897F":"1px solid #808F9D"};
     text-decoration: none;
     color: #2B2D36;
     opacity: ${props => props.habilitado === "true" ? 1 : 0.1};
-    background-color: ${props => (props.selected.find((iten) => iten === props.id))? "#FADBC5":"#9DB899"};
+    background-color: ${props => (props.selected.find((iten) => iten.id === props.id))? "#FADBC5":"#9DB899"};
 
     font-family: Roboto;
     font-size: 11px;
@@ -151,6 +169,14 @@ const Forms = styled.form`
     margin: 25px;
     display: block;
     button{
+        font-family: Sarala;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 29.35px;
+        letter-spacing: 0.04em;
+        text-align: center;
+
+
         width: calc(100% - 25px);
         height: 42px;
         background-color: #EE897F;
@@ -168,6 +194,23 @@ const Title = styled.label`
     text-align: left;
 `
 const Enter = styled.input`
+    width: calc(100% - 25px);
+    justify-content: center;
+    margin-bottom: 20px;
+    height: 40px;
+    border: 1px solid #D4D4D4;
+    border-radius: 8px;
+
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 18.75px;
+    text-align: left;
+
+`
+
+const Cpf = styled(IMaskInput)`
     width: calc(100% - 25px);
     justify-content: center;
     margin-bottom: 20px;

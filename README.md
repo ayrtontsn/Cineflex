@@ -1,8 +1,4 @@
-# React + Vite
+O CineFlex é um sistema de compra de ingressos de um cinema!
+Nele, será possível ver os filmes em cartaz, os horários de exibição e até mesmo escolher o assento desejado.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Link para acesso: https://cineflex-blond-eight.vercel.app/

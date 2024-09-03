@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default function NavBar() {
     return (
         <Barra to="/">
-            <img src="src/assets/cine.png" alt="cine" />
+            <img src="src/assets/cine.png" alt="" />
             Cineflex
         </Barra>
     )

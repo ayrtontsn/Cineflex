@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import cine from '/assets/cine.png'
 
 export default function NavBar() {
     return (
         <Barra to="/">
-            <img src="src/assets/cine.png" alt="" />
+            <img src={cine} alt="cine" />
             Cineflex
         </Barra>
     )
